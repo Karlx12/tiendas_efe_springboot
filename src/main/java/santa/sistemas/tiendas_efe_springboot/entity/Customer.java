@@ -28,7 +28,7 @@ public class Customer {
     @Column(nullable = false)
     @NotBlank(message = "El password debe tener al menos una letra")
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false,length = 8)
     @NotBlank(message = "El dni no puede estar en blanco")
     @Size(min=8, max=8, message = "El DNI tiene 8 carácteres")
     private String dni;
