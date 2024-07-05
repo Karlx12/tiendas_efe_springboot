@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "customer")
 @Data
 @NoArgsConstructor
 public class Customer {
@@ -44,6 +44,10 @@ public class Customer {
     @NotBlank(message = "El eMail no puede estar en blanco")
     @Email(message="Debe ingresar un correo válido")
     private String eMail;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+    private Gender gender;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+    private Payment_Method payment_method;
 
 
 
