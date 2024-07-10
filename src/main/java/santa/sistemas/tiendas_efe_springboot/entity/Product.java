@@ -3,17 +3,14 @@ package santa.sistemas.tiendas_efe_springboot.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name="product")
+@Table(name="products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
