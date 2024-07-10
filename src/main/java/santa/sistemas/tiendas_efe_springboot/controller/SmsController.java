@@ -1,6 +1,7 @@
 package santa.sistemas.tiendas_efe_springboot.controller;
 
 
+import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,17 +18,23 @@ public class SmsController {
 
     @GetMapping("/send-sms-form")
     public String showSmsForm() {
-        return "send_sms";
+        return "smstest";
     }
 
-    @PostMapping("/send-sms")
+    @PostMapping(path = "/send-sms")
+
     public String sendSms(@RequestParam String to, @RequestParam String message, Model model) {
         try {
-            smsService.sendSms(to, message);
+            Message msg=smsService.sendSms(to, message);
+            System.out.println(msg.getBody());
+            System.out.println("Sucess");
             model.addAttribute("success", "SMS enviado exitosamente");
         } catch (Exception e) {
+
             model.addAttribute("error", "Error al enviar el SMS: " + e.getMessage());
+            return "index";
         }
-        return "send_sms";
+
+        return "smstest";
     }
 }

@@ -16,4 +16,8 @@ public class Payment_Method {
     @Column(nullable = false)
     @NotBlank(message = "El método de pago no puede ser nulo")
     private String method;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCustomer",referencedColumnName = "id",nullable = false,foreignKey = @ForeignKey(name = "fk_customer_payment_method"))
+    private Customer customer;
 }

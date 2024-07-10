@@ -11,8 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Gender {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    @GeneratedValue
+    private Long id;
+
     @NotBlank(message = "El género no puede estar en blanco")
     private String gender;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCustomer",referencedColumnName = "id",nullable = false,foreignKey = @ForeignKey(name = "fk_customer_gender"))
+    private Customer customer;
+
 }

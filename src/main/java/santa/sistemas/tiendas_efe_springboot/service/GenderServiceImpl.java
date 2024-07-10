@@ -21,11 +21,11 @@ public class GenderServiceImpl implements GenderService{
         return genderRepository.save(gender);
     }
     @Override
-    public void Delete(Integer id) {
+    public void Delete(Long id) {
         genderRepository.deleteById(id);
     }
     @Override
-    public Gender FindById(Integer id) {
+    public Gender FindById(Long id) {
         return genderRepository.findById(id).orElse(null);
     }
     @Override
