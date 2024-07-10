@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar SMS</title>
+</head>
+<body>
+<h1>Enviar SMS</h1>
+<form action="/send-sms" method="post">
+    <label for="to">Número de Teléfono:</label><br>
+    <input type="text" id="to" name="to" required><br><br>
+    <label for="message">Mensaje:</label><br>
+    <textarea id="message" name="message" required></textarea><br><br>
+    <input type="submit" value="Enviar">
+</form>
+
+<div>
+    <span style="color: green;">[[${success}]]</span>
+    <span style="color: red;">[[${error}]]</span>
+</div>
+</body>
+</html>

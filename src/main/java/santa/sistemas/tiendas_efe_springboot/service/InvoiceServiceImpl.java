@@ -11,6 +11,8 @@ import java.util.List;
 public class InvoiceServiceImpl implements InvoiceService{
     @Autowired
     private InvoiceRepository invoiceRepository;
+    @Autowired
+    private SmsService smsService;
 
     @Override
     public Invoice Add(Invoice invoice) {
@@ -31,6 +33,12 @@ public class InvoiceServiceImpl implements InvoiceService{
     @Override
     public List<Invoice> FindAll() {
         return invoiceRepository.findAll();
+    }
+    public void processPayment(Long invoiceId) {
+        Add(FindById(invoiceId));
+        String toPhoneNumber = "customer_phone_number"; // Obtén el número de teléfono del cliente
+        String message = "Tu pago ha sido procesado exitosamente. ID de la transacción: ...";
+        smsService.sendSms(toPhoneNumber, message);
     }
 
 }
