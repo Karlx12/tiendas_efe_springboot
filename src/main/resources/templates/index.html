@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_frag/Base::site-head">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda EFE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
+    <header th:replace="_frag/Base::site-header"></header>
 
+    <div class="container">
+        <div class="offer-banner">
+            <h1>Descubre Nuestras Ofertas Especiales</h1>
+            <p>¡Aprovecha ahora y no te pierdas nuestras últimas promociones!</p>
+        </div>
+
+        <div class="product-grid">
+            <div th:each="product : ${products}" class="card">
+                <img th:src="@{'/images/products/' + ${product.id} + '.png'}" alt="Imagen del Producto" style="width:100%">
+                <h2 th:text="${product.name}">Nombre del Producto</h2>
+                <p th:text="${product.description}">Descripción del Producto</p>
+                <p th:text="'Marca: ' + ${product.brand}">Marca</p>
+                <p th:text="'Lanzado el: ' + ${#dates.format(product.launchDate, 'dd-MM-yyyy')}">Fecha de Lanzamiento</p>
+                <p th:text="'Precio: $' + ${product.price}">Precio</p>
+                <p th:text="'Stock: ' + ${product.stock}">Stock</p>
+            </div>
+        </div>
+    </div>
+
+	<div th:replace="_frag/Footer :: footer"></div>
+
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

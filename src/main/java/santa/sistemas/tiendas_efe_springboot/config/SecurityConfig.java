@@ -14,9 +14,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Deshabilitar CSRF para permitir solicitudes POST sin un token CSRF
+                .csrf(AbstractHttpConfigurer::disable) // Deshabilitar CSRF
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/send-sms-form", "/send-sms").permitAll() // Permitir acceso sin autenticación
+                        .requestMatchers("/", "/send-sms-form", "/send-sms", "/css/**", "/images/**", "/js/**", "/_frag/**", "/smstest").permitAll() // Permitir todos los accesos a recursos estáticos y smstest
                         .anyRequest().authenticated() // Requiere autenticación para todas las demás solicitudes
                 );
 
