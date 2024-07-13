@@ -1,4 +1,4 @@
-package santa.sistemas.tiendas_efe_springboot.service;
+package santa.sistemas.tiendas_efe_springboot.service.entity_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
