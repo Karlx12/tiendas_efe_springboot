@@ -7,7 +7,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -17,11 +16,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityJBDC {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private DataSource dataSource;
+    @Autowired private DataSource dataSource;
 
     @Bean
     UserDetailsService userDetailsService() {
@@ -43,7 +38,7 @@ public class SecurityJBDC {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((request) ->
                         request
-                                .requestMatchers("/css/**", "/js/**", "/img/**", "/login", "/register", "/user/denied").permitAll()
+                                .requestMatchers("/css/**", "/js/**", "/img/**", "/user/login", "/register", "/user/denied","/").permitAll()
                                 .requestMatchers("/*/index").permitAll()
                                 .requestMatchers("/*/nuevo").hasRole("ADMIN")
                                 .requestMatchers("/*/editar**").hasRole("ADMIN")
@@ -61,12 +56,12 @@ public class SecurityJBDC {
                                 .passwordParameter("password")
                                 .loginPage("/user/login")
                                 .failureUrl("/user/denied")
-                                .loginProcessingUrl("/login")
+                                .loginProcessingUrl("/user/login")
                                 .defaultSuccessUrl("/", true)
                 )
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/user/login")
                 )
                 .build();
     }
