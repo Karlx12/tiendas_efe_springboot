@@ -1,8 +1,12 @@
 package santa.sistemas.tiendas_efe_springboot.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,11 +15,10 @@ import java.util.Date;
 @Entity
 @Table(name = "customers")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Customer {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Customer extends User{
+
     @Column(nullable = false)
     @NotBlank(message="El nombre debe tener al menos una letra")
     @Size(min=1,max=40,message="El nombre debe tener entre 1 a 40 carácteres")
@@ -25,9 +28,7 @@ public class Customer {
     @Size(min=1,max=40,message="El Apellido debe tener entre 1 a 40 carácteres")
     private String lastname;
 
-    @Column(nullable = false)
-    @NotBlank(message = "El password debe tener al menos una letra")
-    private String password;
+
     @Column(nullable = false,length = 8)
     @NotBlank(message = "El dni no puede estar en blanco")
     @Size(min=8, max=8, message = "El DNI tiene 8 carácteres")

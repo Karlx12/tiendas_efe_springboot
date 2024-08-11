@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import santa.sistemas.tiendas_efe_springboot.service.ProductService;
+import santa.sistemas.tiendas_efe_springboot.service.entity_service.ProductService;
 
 @Controller
 public class ProductController {
