@@ -38,7 +38,7 @@ public class SecurityJBDC {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((request) ->
                         request
-                                .requestMatchers("/css/**", "/js/**", "/img/**", "/user/login", "/register", "/user/denied","/").permitAll()
+                                .requestMatchers("/css/**", "/js/**", "/images/**", "/user/login", "/register", "/user/denied","/").permitAll()
                                 .requestMatchers("/*/index").permitAll()
                                 .requestMatchers("/*/nuevo").hasRole("ADMIN")
                                 .requestMatchers("/*/editar**").hasRole("ADMIN")
