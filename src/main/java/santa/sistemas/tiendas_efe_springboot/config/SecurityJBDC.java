@@ -3,69 +3,86 @@ package santa.sistemas.tiendas_efe_springboot.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.sql.DataSource;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityJBDC {
 
-    @Autowired private DataSource dataSource;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     UserDetailsService userDetailsService() {
-        JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
-        manager.setRolePrefix("ROLE_");
-        manager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
-        manager.setAuthoritiesByUsernameQuery("SELECT u.username, r.name as authority " +
-                "FROM users u " +
-                "JOIN user_roles ur ON u.id = ur.user_id " +
-                "JOIN roles r ON ur.role_id = r.id " +
-                "WHERE u.username = ?");
-        return manager;
+        return new InMemoryUserDetailsManager(
+            User.withUsername("user")
+                .password(passwordEncoder.encode("user"))
+                .roles("USER")
+                .build(),
+            User.withUsername("admin")
+                .password(passwordEncoder.encode("admin"))
+                .roles("USER", "ADMIN")
+                .build()
+        );
     }
-
-
+    
+    //UserDetailsService userDetailsService() {
+    //JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+    //manager.setRolePrefix("ROLE_");
+    //manager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
+    //manager.setAuthoritiesByUsernameQuery("SELECT u.username, r.name as authority " +
+    //        "FROM users u " +
+    //        "JOIN user_roles ur ON u.id = ur.user_id " +
+    //        "JOIN roles r ON ur.role_id = r.id " +
+    //        "WHERE u.username = ?");
+    //return manager;
+    //}
+    
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .httpBasic(Customizer.withDefaults())
-                .authorizeHttpRequests((request) ->
-                        request
-                        		.requestMatchers("/css/**", "/js/**", "/images/**", "/login", "/signup", "/register", "/denied", "/").permitAll()
-                                .requestMatchers("/*/index").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/*/add").hasRole("ADMIN")
-                                .requestMatchers("/*/edit**").hasRole("ADMIN")
-                                .requestMatchers("/*/delete**").hasRole("ADMIN")
-                                .requestMatchers("/*/save").hasRole("ADMIN")
-                                .requestMatchers("/payment_method/**").hasRole("ADMIN")
-                                .requestMatchers("/role/**").hasRole("ADMIN")
-
-                                .anyRequest().authenticated()
-                )
-                .exceptionHandling((exceptionHandling) ->
-                        exceptionHandling.accessDeniedPage("/denied")
-                )
-                .formLogin(form ->
-                        form
-                                .permitAll()
-                                .usernameParameter("username")
-                                .passwordParameter("password")
-                                .loginPage("/login")
-                                .failureUrl("/denied")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/", true)
-                )
-                .logout(logout -> logout
-                        .permitAll()
-                        .logoutSuccessUrl("/user/login")
-                )
-                .build();
+            .httpBasic(withDefaults())
+            .authorizeHttpRequests((request) -> 
+                request
+                    .requestMatchers("/css/**").permitAll()
+                    .requestMatchers("/images/**").permitAll()
+                    .requestMatchers("/js/**").permitAll()
+                    .requestMatchers("/login").permitAll()
+                    .requestMatchers("/user/denied").permitAll()
+                    .requestMatchers("/index").permitAll()
+                    .requestMatchers("/user/add").hasRole("ADMIN")
+                    .requestMatchers("/user/edit/**").hasRole("ADMIN")
+                    .requestMatchers("/user/delete/**").hasRole("ADMIN")
+                    .requestMatchers("/product/index").hasAnyRole("ADMIN", "USER")
+                    .anyRequest().authenticated()
+            )
+            .exceptionHandling((exceptionHandling) -> 
+                exceptionHandling
+                    .accessDeniedPage("/user/denied")
+            )
+            .formLogin((form) -> 
+                form
+                    .permitAll()
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .loginPage("/login")
+                    .failureUrl("/login?error=true")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/index", true)
+            )
+            .logout((logout) -> 
+                logout.permitAll()
+                    .logoutSuccessUrl("/login")
+                    .clearAuthentication(true)
+            )
+            .build();
     }
 }

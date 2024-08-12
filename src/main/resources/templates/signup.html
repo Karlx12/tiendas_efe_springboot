@@ -10,7 +10,7 @@
 <body>
     <div class="form-container">
         <h2 class="text-center">Create Your Account</h2>
-        <p class="text-center text-muted">Join us and start your journey today</p>
+        <p class="text-center text-muted">Get started with the best deals and offers</p>
         <form th:action="@{/signup}" th:object="${user}" method="post">
             <div class="form-group">
                 <label for="username">Choose a Username</label>
@@ -20,7 +20,7 @@
                 <label for="password">Choose a Password</label>
                 <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Create a strong password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Sign Up</button> <!-- Botón con estilo original -->
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
         </form>
         <div class="text-center mt-3">
             <a href="/login" class="text-primary">Already have an account? Login here</a>

@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="_frag/Base::site-head">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda EFE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
+<head th:replace="~{_frag/Base::site-head}"></head>
 <body>
-    <header th:replace="_frag/Base::site-header"></header>
+    <header th:replace="~{_frag/Base::site-header}"></header>
 
     <div class="container">
         <div class="offer-banner">
@@ -29,7 +23,7 @@
         </div>
     </div>
 
-	<div th:replace="_frag/Footer :: footer"></div>
+    <footer th:replace="~{_frag/Footer :: footer}"></footer>
 
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>

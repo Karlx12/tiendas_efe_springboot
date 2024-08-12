@@ -1,6 +1,7 @@
 package santa.sistemas.tiendas_efe_springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import santa.sistemas.tiendas_efe_springboot.entity.User;
 import santa.sistemas.tiendas_efe_springboot.service.entity_service.UserService;
 import santa.sistemas.tiendas_efe_springboot.entity.Role;
-import santa.sistemas.tiendas_efe_springboot.entity.User;
 
 import jakarta.validation.Valid;
 
@@ -19,15 +19,18 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping({"/", "/index"})
+    @GetMapping("/index")
     public String index() {
-        return "redirect:/product/index";
+        return "index";  // Devuelve la vista "index.html" directamente
     }
 
     @GetMapping("/denied")
@@ -37,23 +40,30 @@ public class LoginController {
 
     @GetMapping("/signup")
     public String signup(Model model) {
-        model.addAttribute("user", new User());  // Añadir el objeto 'user' al modelo
+        model.addAttribute("user", new User());
         return "signup";
     }
+
     @GetMapping("/populate")
     public String populate() {
-        Role role_admin=new Role();
+        Role role_admin = new Role();
         role_admin.setName("ADMIN");
-        Role role_user=new Role();
+        Role role_user = new Role();
         role_user.setName("USER");
-        User user1=new User();
+
+        User user1 = new User();
         user1.setUsername("admin");
-        user1.setPassword("admin");
+        user1.setPassword(passwordEncoder.encode("admin"));  // Codifica la contraseña
         user1.addRole(role_admin);
-        User user2=new User();
+
+        User user2 = new User();
         user2.setUsername("user");
-        user2.setPassword("user");
+        user2.setPassword(passwordEncoder.encode("user"));  // Codifica la contraseña
         user2.addRole(role_user);
+
+        userService.Add(user1);
+        userService.Add(user2);
+
         return "redirect:/index";
     }
 
@@ -63,7 +73,10 @@ public class LoginController {
             return "signup";  // Si hay errores de validación, volver a mostrar el formulario
         }
 
-        // Guardar el usuario en la base de datos sin encriptar la contraseña
+        // Codificar la contraseña antes de guardar el usuario
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Guardar el usuario en la base de datos
         userService.Add(user);
 
         // Redirigir al login después de un registro exitoso

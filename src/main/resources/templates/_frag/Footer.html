@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer class="footer">
+<footer th:fragment="footer">
     <div class="info-section py-3">
         <div class="container-fluid">
             <div class="row text-center">
                 <div class="col-md-3">
-                    <img src="/images/store-icon.png" alt="Retira en tienda" class="footer-icon">
+                    <img th:src="@{/images/store-icon.png}" alt="Retira en tienda" class="footer-icon">
                     <h5>Retira tu Compra en Tienda</h5>
                     <p>200 tiendas y puntos de retiro en todo el Perú</p>
                 </div>
                 <div class="col-md-3">
-                    <img src="/images/shipping-icon.png" alt="Envíos a todo Perú" class="footer-icon">
+                    <img th:src="@{/images/shipping-icon.png}" alt="Envíos a todo Perú" class="footer-icon">
                     <h5>Envíos a Todo el Perú</h5>
                     <p>Más de 1800 distritos</p>
                 </div>
                 <div class="col-md-3">
-                    <img src="/images/headset-icon.png" alt="Atención al Cliente" class="footer-icon">
+                    <img th:src="@{/images/headset-icon.png}" alt="Atención al Cliente" class="footer-icon">
                     <h5>Atención al Cliente</h5>
                     <p>(01) 200-2890</p>
                 </div>
                 <div class="col-md-3">
-                    <img src="/images/headset-icon.png" alt="Contáctanos por Whatsapp" class="footer-icon">
+                    <img th:src="@{/images/headset-icon.png}" alt="Contáctanos por Whatsapp" class="footer-icon">
                     <h5>Contáctanos por Whatsapp</h5>
                     <p>943 199 200</p>
                 </div>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </head>
+<body>
 <header th:fragment="site-header">
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0056b3; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
         <div class="container-fluid">
@@ -22,11 +23,12 @@
                         <a class="nav-link active" th:href="@{/}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/smstest}">SMS</a>
+                        <a class="nav-link" th:href="@{/send-sms-form}">SMS</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+</body>
 </html>
