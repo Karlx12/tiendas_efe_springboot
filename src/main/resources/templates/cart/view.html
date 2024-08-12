@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{_frag/Base::site-head}"></head>
+<body>
+<header th:replace="~{_frag/Base::site-header}"></header>
+
+<div class="container">
+    <h2>Carrito de Compras</h2>
+    <div th:if="${cart != null}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${cart}">
+                    <td th:text="${item.name}">Producto</td>
+                    <td th:text="${item.description}">Descripción</td>
+                    <td th:text="${item.price}">Precio</td>
+                    <td>1</td> <!-- Por defecto 1, puedes añadir más funcionalidad para ajustar cantidad -->
+                    <td th:text="${item.price}">Total</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a th:href="@{/checkout}" class="btn btn-success">Proceder a la Compra</a>
+        </div>
+    </div>
+    <div th:if="${cart == null || #lists.isEmpty(cart)}">
+        <p>No hay productos en el carrito.</p>
+    </div>
+</div>
+
+<footer th:replace="~{_frag/Footer :: footer}"></footer>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

@@ -10,19 +10,23 @@
             <p>¡Aprovecha ahora y no te pierdas nuestras últimas promociones!</p>
         </div>
 
-		<div class="product-grid">
-			<div th:each="product : ${products}" class="card">
-			    <img th:src="@{'/images/products/' + ${product.id} + '.png'}" alt="Imagen del Producto" style="width:100%">
-			    <h2 th:text="${product.name}">Nombre del Producto</h2>
-			    <p th:text="${product.description}">Descripción del Producto</p>
-			    <p th:text="'Marca: ' + ${product.brand}">Marca</p>
-			    <p th:text="'Lanzado el: ' + ${#dates.format(product.launchDate, 'dd-MM-yyyy')}">Fecha de Lanzamiento</p>
-			    <p th:text="'Precio: $' + ${product.price}">Precio</p>
-			    <p th:text="'Stock: ' + ${product.stock}">Stock</p>
-			</div>
+        <div class="product-grid">
+            <div th:each="product : ${products}" class="card">
+                <img th:src="@{'/images/products/' + ${product.id} + '.png'}" alt="Imagen del Producto" style="width:100%">
+                <h2 th:text="${product.name}">Nombre del Producto</h2>
+                <p th:text="${product.description}">Descripción del Producto</p>
+                <p th:text="'Marca: ' + ${product.brand}">Marca</p>
+                <p th:text="'Lanzado el: ' + ${#dates.format(product.launchDate, 'dd-MM-yyyy')}">Fecha de Lanzamiento</p>
+                <p th:text="'Precio: $' + ${product.price}">Precio</p>
+                <p th:text="'Stock: ' + ${product.stock}">Stock</p>
 
-		</div>
-
+                <!-- Botón de añadir al carrito -->
+                <form th:action="@{/cart/add}" method="post" class="mt-2">
+                    <input type="hidden" name="productId" th:value="${product.id}"/>
+                    <button type="submit" class="btn btn-primary">Añadir al Carrito</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <footer th:replace="~{_frag/Footer :: footer}"></footer>

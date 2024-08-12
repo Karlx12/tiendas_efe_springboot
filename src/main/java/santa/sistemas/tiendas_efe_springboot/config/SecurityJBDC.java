@@ -70,7 +70,7 @@ public class SecurityJBDC {
                     .loginPage("/login")
                     .failureUrl("/login?error=true")
                     .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/index", true)
+                    .defaultSuccessUrl("/", true)
             )
             .logout((logout) -> 
                 logout
