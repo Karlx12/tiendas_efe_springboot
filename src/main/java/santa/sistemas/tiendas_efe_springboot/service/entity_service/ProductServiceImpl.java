@@ -21,16 +21,15 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
     @Override
-    public void Delete(Long id) {
+    public void Delete(String id) {
         productRepository.deleteById(id);
     }
     @Override
-    public Product FindById(Long id) {
+    public Product FindById(String id) {
         return productRepository.findById(id).orElse(null);
     }
     @Override
     public List<Product> FindAll() {
         return productRepository.findAll();
     }
-
 }

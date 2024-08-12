@@ -10,46 +10,46 @@ import santa.sistemas.tiendas_efe_springboot.entity.Product;
 import santa.sistemas.tiendas_efe_springboot.service.entity_service.ProductService;
 
 @Controller
-@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    @GetMapping({"/", "/index"})
+    @GetMapping("/")
     public String showHomePage(Model model) {
         model.addAttribute("products", productService.FindAll());
-        return "product/index";
+        return "index";
     }
-
+    
     @GetMapping("/add")
     public String addProduct(Model model) {
-        model.addAttribute("product", productService.FindAll());
+        model.addAttribute("product", new Product());
         return "product/productform";
     }
+
     @PostMapping("/save")
     public String saveProduct(@Valid @ModelAttribute("product") Product product,
                               BindingResult result, Model model) {
         if(result.hasErrors()) {
             return "product/productform";
         }
-        if(product.getId() == null) {
-            productService.Add(product);
-        } else {
-            productService.Update(product);
-        }
+        productService.Add(product);
         return "redirect:/product/index";
     }
+
+ // Muestra el formulario para editar un producto existente
     @GetMapping("/edit/{id}")
-    public String editProduct(Model model, @PathVariable("id") Long id) {
+    public String editProduct(Model model, @PathVariable("id") String id) {
         Product selectedProduct = productService.FindById(id);
-        model.addAttribute("product", selectedProduct!=null?selectedProduct:new Product());
+        model.addAttribute("product", selectedProduct != null ? selectedProduct : new Product());
         return "product/productform";
     }
+
+    // Elimina un producto y redirige a la lista de productos
     @GetMapping("/delete/{id}")
-    public String deleteProduct(Model model,@PathVariable("id") Long id) {
+    public String deleteProduct(@PathVariable("id") String id) {
         productService.Delete(id);
-        return "redirect:/product/index";
+        return "redirect:/product/";
     }
 
 }

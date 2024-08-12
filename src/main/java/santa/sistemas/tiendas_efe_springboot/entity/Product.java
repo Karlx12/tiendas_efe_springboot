@@ -38,4 +38,14 @@ public class Product {
 
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer stock;
+
+    public Product(String id, String name, String description, String brand, Float price, Date launchDate, Integer stock) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.brand = brand;
+        this.price = price;
+        this.launchDate = launchDate;
+        this.stock = stock;
+    }
 }
