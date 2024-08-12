@@ -38,25 +38,28 @@ public class SecurityJBDC {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((request) ->
                         request
-                                .requestMatchers("/css/**", "/js/**", "/images/**", "/user/login", "/register", "/user/denied","/").permitAll()
-                                .requestMatchers("/*/index").permitAll()
-                                .requestMatchers("/*/nuevo").hasRole("ADMIN")
-                                .requestMatchers("/*/editar**").hasRole("ADMIN")
-                                .requestMatchers("/*/eliminar**").hasRole("ADMIN")
-                                .requestMatchers("/*/matricular**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/css/**", "/js/**", "/images/**", "/login", "/register", "/denied","/").permitAll()
+                                .requestMatchers("/*/index").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/*/add").hasRole("ADMIN")
+                                .requestMatchers("/*/edit**").hasRole("ADMIN")
+                                .requestMatchers("/*/delete**").hasRole("ADMIN")
+                                .requestMatchers("/*/save").hasRole("ADMIN")
+                                .requestMatchers("/payment_method/**").hasRole("ADMIN")
+                                .requestMatchers("/role/**").hasRole("ADMIN")
+
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptionHandling) ->
-                        exceptionHandling.accessDeniedPage("/user/denied")
+                        exceptionHandling.accessDeniedPage("/denied")
                 )
                 .formLogin(form ->
                         form
                                 .permitAll()
                                 .usernameParameter("username")
                                 .passwordParameter("password")
-                                .loginPage("/user/login")
-                                .failureUrl("/user/denied")
-                                .loginProcessingUrl("/user/login")
+                                .loginPage("/login")
+                                .failureUrl("/denied")
+                                .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/", true)
                 )
                 .logout(logout -> logout
