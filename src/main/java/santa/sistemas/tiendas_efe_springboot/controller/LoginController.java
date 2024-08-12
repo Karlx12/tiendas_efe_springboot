@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import santa.sistemas.tiendas_efe_springboot.entity.User;
 import santa.sistemas.tiendas_efe_springboot.service.entity_service.UserService;
+import santa.sistemas.tiendas_efe_springboot.entity.Role;
+import santa.sistemas.tiendas_efe_springboot.entity.User;
 
 import jakarta.validation.Valid;
 
@@ -23,7 +25,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/")
+    @GetMapping({"/", "/index"})
     public String index() {
         return "redirect:/product/index";
     }
@@ -37,6 +39,22 @@ public class LoginController {
     public String signup(Model model) {
         model.addAttribute("user", new User());  // Añadir el objeto 'user' al modelo
         return "signup";
+    }
+    @GetMapping("/populate")
+    public String populate() {
+        Role role_admin=new Role();
+        role_admin.setName("ADMIN");
+        Role role_user=new Role();
+        role_user.setName("USER");
+        User user1=new User();
+        user1.setUsername("admin");
+        user1.setPassword("admin");
+        user1.addRole(role_admin);
+        User user2=new User();
+        user2.setUsername("user");
+        user2.setPassword("user");
+        user2.addRole(role_user);
+        return "redirect:/index";
     }
 
     @PostMapping("/signup")

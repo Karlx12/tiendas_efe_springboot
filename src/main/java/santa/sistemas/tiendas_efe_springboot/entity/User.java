@@ -35,7 +35,13 @@ public class User {
 
     @Column(nullable = false)
     private boolean enabled = true;
-
+    User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 
 }
 
