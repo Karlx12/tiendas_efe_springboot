@@ -18,7 +18,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/}">Inicio</a>
                     </li>
@@ -26,6 +26,17 @@
                         <a class="nav-link" th:href="@{/send-sms-form}">SMS</a>
                     </li>
                 </ul>
+                <div class="d-flex" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" id="logoutForm" class="d-flex align-items-center">
+                        <p class="text-white m-0">
+                            <strong sec:authentication="name"></strong> |
+                        </p>
+                        <button type="submit" class="btn btn-link btn-sm text-white p-0 ms-2"
+                                onclick="return confirm('¿Estás seguro de que quieres cerrar sesión?');">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>

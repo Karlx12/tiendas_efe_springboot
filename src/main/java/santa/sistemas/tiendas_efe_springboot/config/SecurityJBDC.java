@@ -52,15 +52,9 @@ public class SecurityJBDC {
             .httpBasic(withDefaults())
             .authorizeHttpRequests((request) -> 
                 request
-                    .requestMatchers("/css/**").permitAll()
-                    .requestMatchers("/images/**").permitAll()
-                    .requestMatchers("/js/**").permitAll()
-                    .requestMatchers("/login").permitAll()
-                    .requestMatchers("/user/denied").permitAll()
-                    .requestMatchers("/index").permitAll()
-                    .requestMatchers("/user/add").hasRole("ADMIN")
-                    .requestMatchers("/user/edit/**").hasRole("ADMIN")
-                    .requestMatchers("/user/delete/**").hasRole("ADMIN")
+                    .requestMatchers("/css/**", "/images/**", "/js/**", "/login", "/signup", "/user/denied").permitAll()
+                    .requestMatchers("/index").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/user/add", "/user/edit/**", "/user/delete/**").hasRole("ADMIN")
                     .requestMatchers("/product/index").hasAnyRole("ADMIN", "USER")
                     .anyRequest().authenticated()
             )
@@ -79,8 +73,11 @@ public class SecurityJBDC {
                     .defaultSuccessUrl("/index", true)
             )
             .logout((logout) -> 
-                logout.permitAll()
-                    .logoutSuccessUrl("/login")
+                logout
+                    .permitAll()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login?logout=true")
+                    .invalidateHttpSession(true)
                     .clearAuthentication(true)
             )
             .build();
