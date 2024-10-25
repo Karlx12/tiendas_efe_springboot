@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{_frag/Base::site-head}"></head>
+<body>
+    <header th:replace="~{_frag/Base::site-header}"></header>
+
+    <div class="container mt-5">
+        <div class="offer-banner text-center mb-4">
+            <h1>Editar Cuenta</h1>
+            <p>Actualiza tus datos de usuario fácilmente</p>
+        </div>
+
+        <div class="form-container mx-auto" style="max-width: 500px;">
+            <form th:action="@{/user/actualizar-cuenta}" th:object="${user}" method="post">
+                <div class="form-group mb-3">
+                    <label for="username">Nombre de Usuario</label>
+                    <input type="text" th:field="*{username}" id="username" class="form-control" placeholder="Nombre de Usuario" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">Contraseña</label>
+                    <input type="password" th:field="*{password}" id="password" class="form-control" placeholder="Nueva Contraseña">
+                    <small class="form-text text-muted">Deja este campo en blanco si no deseas cambiar la contraseña.</small>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <footer th:replace="~{_frag/Footer::footer}"></footer>
+
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
