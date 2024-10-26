@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import santa.sistemas.tiendas_efe_springboot.entity.User;
+import santa.sistemas.tiendas_efe_springboot.service.entity_service.ProductService;
+import santa.sistemas.tiendas_efe_springboot.service.entity_service.RoleService;
 import santa.sistemas.tiendas_efe_springboot.service.entity_service.UserService;
 import santa.sistemas.tiendas_efe_springboot.entity.Role;
 
@@ -19,6 +21,10 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private ProductService productService;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,8 +35,10 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String index() {
-        return "index";  // Devuelve la vista "index.html" directamente
+    public String index(Model model) {
+        model.addAttribute("products", productService.FindAll());
+        System.out.println("Products: " + productService.FindAll());
+        return "index";
     }
 
     @GetMapping("/denied")
@@ -41,6 +49,8 @@ public class LoginController {
     @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("user_roles", new Role());
+
         return "signup";
     }
 
@@ -60,6 +70,8 @@ public class LoginController {
         user2.setUsername("user");
         user2.setPassword(passwordEncoder.encode("user"));  // Codifica la contraseña
         user2.addRole(role_user);
+        roleService.Add(role_admin);
+        roleService.Add(role_user);
 
         userService.Add(user1);
         userService.Add(user2);
@@ -70,16 +82,22 @@ public class LoginController {
     @PostMapping("/signup")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "signup";  // Si hay errores de validación, volver a mostrar el formulario
+            return "signup";  // If there are validation errors, show the form again
         }
 
-        // Codificar la contraseña antes de guardar el usuario
+        // Encode the password before saving the user
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Guardar el usuario en la base de datos
+        // Fetch the role with ID 2 (USER role)
+        Role userRole = roleService.FindById(2L);
+        if (userRole != null) {
+            user.addRole(userRole);  // Add the USER role to the user
+        }
+
+        // Save the user in the database
         userService.Add(user);
 
-        // Redirigir al login después de un registro exitoso
+        // Redirect to the login page after successful registration
         return "redirect:/login?registered";
     }
 }

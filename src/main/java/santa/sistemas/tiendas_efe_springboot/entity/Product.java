@@ -3,9 +3,14 @@ package santa.sistemas.tiendas_efe_springboot.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -13,8 +18,8 @@ import java.util.Date;
 @Table(name = "product")
 public class Product {
     @Id
-    @Column(name = "product_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     @NotBlank(message = "El nombre no puede estar en blanco")
@@ -32,15 +37,17 @@ public class Product {
     @DecimalMin(value = "0.1", message = "El valor no puede ser 0")
     private Float price;
 
-    @Column(name = "launch_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @NotNull(message = "Launch date is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date launchDate;
 
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer stock;
 
-    public Product(String id, String name, String description, String brand, Float price, Date launchDate, Integer stock) {
-        this.id = id;
+    @OneToMany(mappedBy = "product")
+    private Set<InvoiceItem> invoiceItems = new LinkedHashSet<>();
+
+    public Product(String name, String description, String brand, Float price, Date launchDate, Integer stock) {
         this.name = name;
         this.description = description;
         this.brand = brand;

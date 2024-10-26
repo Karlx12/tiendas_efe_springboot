@@ -2,35 +2,17 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{_frag/Base::site-head}"></head>
 <body>
-    <header th:replace="~{_frag/Base::site-header}"></header>
+<header th:replace="~{_frag/Base::site-header}"></header>
 
-    <div class="container">
-        <div class="offer-banner">
-            <h1>Descubre Nuestras Ofertas Especiales</h1>
-            <p>¡Aprovecha ahora y no te pierdas nuestras últimas promociones!</p>
-        </div>
-
-        <div class="product-grid">
-            <div th:each="product : ${products}" class="card">
-                <img th:src="@{'/images/products/' + ${product.id} + '.png'}" alt="Imagen del Producto" style="width:100%">
-                <h2 th:text="${product.name}">Nombre del Producto</h2>
-                <p th:text="${product.description}">Descripción del Producto</p>
-                <p th:text="'Marca: ' + ${product.brand}">Marca</p>
-                <p th:text="'Lanzado el: ' + ${#dates.format(product.launchDate, 'dd-MM-yyyy')}">Fecha de Lanzamiento</p>
-                <p th:text="'Precio: $' + ${product.price}">Precio</p>
-                <p th:text="'Stock: ' + ${product.stock}">Stock</p>
-
-                <!-- Botón de añadir al carrito -->
-                <form th:action="@{/cart/add}" method="post" class="mt-2">
-                    <input type="hidden" name="productId" th:value="${product.id}"/>
-                    <button type="submit" class="btn btn-primary">Añadir al Carrito</button>
-                </form>
-            </div>
-        </div>
+<div class="container">
+    <div class="offer-banner">
+        <h1>Descubre Nuestras Ofertas Especiales</h1>
+        <p>¡Aprovecha ahora y no te pierdas nuestras últimas promociones!</p>
     </div>
+</div>
 
-    <footer th:replace="~{_frag/Footer :: footer}"></footer>
+<footer th:replace="~{_frag/Footer::footer}"></footer>
 
-    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

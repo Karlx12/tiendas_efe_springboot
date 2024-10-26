@@ -21,11 +21,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
     @Override
-    public void Delete(String id) {
+    public void Delete(Long id) {
         productRepository.deleteById(id);
     }
     @Override
-    public Product FindById(String id) {
+    public Product FindById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
     @Override

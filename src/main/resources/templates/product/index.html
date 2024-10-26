@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{_frag/Base::site-head}"><title>Productos</title></head>
+<body>
+<header th:replace="~{_frag/Base::site-header}"></header>
+
+<div class="container">
+    <h2>Product List</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <a th:href="@{/product/add}" class="btn btn-primary mb-3">Add New Product</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Launch Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}">Product Name</td>
+            <td th:text="${product.description}">Product Description</td>
+            <td th:text="${product.brand}">Product Brand</td>
+            <td th:text="${product.price}">Product Price</td>
+            <td th:text="${product.stock}">Product Stock</td>
+            <td th:text="${#dates.format(product.launchDate, 'dd/MM/yyyy')}">Launch Date</td>
+            <td>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn btn-warning btn-sm">Edit</a>
+                    <a th:href="@{/product/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="~{_frag/Footer::footer}"></footer>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

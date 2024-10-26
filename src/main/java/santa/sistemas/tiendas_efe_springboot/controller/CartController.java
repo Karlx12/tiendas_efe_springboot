@@ -30,7 +30,7 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public String addToCart(@RequestParam("productId") String productId, HttpSession session, Model model) {
+    public String addToCart(@RequestParam("productId") Long productId, HttpSession session, Model model) {
         List<Product> cart = (List<Product>) session.getAttribute("cart");
         if (cart == null) {
             cart = new ArrayList<>();
@@ -54,7 +54,7 @@ public class CartController {
     }
 
     @PostMapping("/remove")
-    public String removeFromCart(@RequestParam("productId") String productId) {
+    public String removeFromCart(@RequestParam("productId") Long productId) {
         Product product = productService.FindById(productId);
         if (product != null) {
             cartService.removeFromCart(product);
