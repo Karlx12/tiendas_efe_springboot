@@ -46,7 +46,8 @@ public class SecurityJBDC {
                                 .requestMatchers("/css/**", "/images/**", "/js/**", "/login", "/signup", "/user/denied","/populate").permitAll()
                                 .requestMatchers("/index").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/user/add", "/user/edit/**", "/user/delete/**").hasRole("ADMIN")
-                                .requestMatchers("/product/index").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/product").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/product/add", "/product/edit/**", "/product/delete/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptionHandling) ->

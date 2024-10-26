@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
-    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}" async></script>
     <title></title>
 </head>
 <body>
 <header th:fragment="site-header">
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0056b3; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">
+            <a class="navbar-brand" th:href="@{/}" aria-label="Home">
                 <img th:src="@{/images/logoEfe.jpg}" alt="Logo Tienda EFE" width="100" height="auto" class="d-inline-block align-top">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,11 +23,13 @@
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/}">Inicio</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/product/}">Productos</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <!-- Icono de carrito de compras -->
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/cart}">
+                        <a class="nav-link" th:href="@{/cart}" aria-label="Shopping Cart">
                             <img src="/images/cart-icon.jpg" alt="Carrito" width="24" height="24">
                         </a>
                     </li>

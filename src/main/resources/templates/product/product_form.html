@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{_frag/Base::site-head}"><title>Añadir un Producto</title></head>
+<body>
+<header th:replace="~{_frag/Base::site-header}"></header>
+
+<div class="container">
+    <h2>Añadir un Producto</h2>
+    <form th:action="@{/product/save}" th:object="${product}" method="post" class="needs-validation" novalidate>
+        <div th:if="${product.id != null}">
+            <input type="hidden" th:field="*{id}">
+        </div>
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese el nombre de un producto.</div>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" th:field="*{description}" class="form-control" required></textarea>
+            <div class="invalid-feedback">Por favor ingrese la descripción de un producto.</div>
+        </div>
+        <div class="form-group">
+            <label for="brand">Marca</label>
+            <input type="text" id="brand" th:field="*{brand}" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese una marca de producto.</div>
+        </div>
+        <div class="form-group">
+            <label for="price">Precio</label>
+            <input type="number" step="0.01" id="price" th:field="*{price}" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese un precio.</div>
+        </div>
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" id="stock" th:field="*{stock}" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese el stock.</div>
+        </div>
+        <div class="form-group">
+            <label for="launchDate">Fecha de lanzamiento</label>
+            <input type="date" id="launchDate" th:field="*{launchDate}" class="form-control" required>
+            <div class="invalid-feedback">Por favor ingrese una fecha de lanzamiento.</div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+    </form>
+</div>
+
+<footer th:replace="~{_frag/Footer::footer}"></footer>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

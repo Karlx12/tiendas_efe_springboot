@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import santa.sistemas.tiendas_efe_springboot.entity.User;
+import santa.sistemas.tiendas_efe_springboot.service.entity_service.ProductService;
 import santa.sistemas.tiendas_efe_springboot.service.entity_service.RoleService;
 import santa.sistemas.tiendas_efe_springboot.service.entity_service.UserService;
 import santa.sistemas.tiendas_efe_springboot.entity.Role;
@@ -22,6 +23,8 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private ProductService productService;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,8 +35,10 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String index() {
-        return "index";  // Devuelve la vista "index.html" directamente
+    public String index(Model model) {
+        model.addAttribute("products", productService.FindAll());
+        System.out.println("Products: " + productService.FindAll());
+        return "index";
     }
 
     @GetMapping("/denied")
